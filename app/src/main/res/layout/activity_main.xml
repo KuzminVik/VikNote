@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".MainActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".MainActivity"
+            android:layout_margin="5dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <include layout="@layout/content_main" />
+            </FrameLayout>
+
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_folder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="@color/white"
+                android:contentDescription="Add folder button"
+                android:src="@drawable/ic_baseline_create_new_folder_24"
+                android:visibility="gone"
+                app:fabSize="mini"
+                app:layout_constraintBottom_toTopOf="@+id/fab_note"
+                app:layout_constraintEnd_toEndOf="@+id/fab_menu" />
+
+            <TextView
+                android:id="@+id/fab_label_folder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Add folder"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/fab_folder"
+                app:layout_constraintEnd_toStartOf="@+id/fab_folder"
+                app:layout_constraintTop_toTopOf="@+id/fab_folder" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="@color/white"
+                android:contentDescription="Add note button"
+                android:src="@drawable/ic_baseline_note_add_24"
+                android:visibility="gone"
+                app:fabSize="mini"
+                app:layout_constraintBottom_toTopOf="@+id/fab_menu"
+                app:layout_constraintEnd_toEndOf="@+id/fab_menu" />
+
+            <TextView
+                android:id="@+id/fab_label_note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Add note"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/fab_note"
+                app:layout_constraintEnd_toStartOf="@+id/fab_note"
+                app:layout_constraintTop_toTopOf="@+id/fab_note" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/fab_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/fab_margin"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="@color/purple_200"
+                android:contentDescription="Munu button"
+                android:text="Add"
+                app:fabSize="normal"
+                app:icon="@drawable/ic_baseline_add_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_baseline_add_24" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.VikNote.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/Theme.VikNote.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
