@@ -4,16 +4,19 @@ import androidx.room.*
 
 @Dao
 interface NotesDao{
-    @Query("SELECT * FROM Note")
+    @Query("SELECT * FROM notes")
     suspend fun getAll(): List<Note>
 
-    @Query("SELECT * FROM Note WHERE name = :name")
+    @Query("SELECT * FROM notes WHERE name = :name")
     suspend fun getByName(name: String): Note
 
-    @Query("SELECT * FROM Note WHERE priority = :priority")
+    @Query("SELECT * FROM notes WHERE priority = :priority")
     suspend fun getByPriority(priority: Int): List<Note>
 
-    @Query("SELECT * FROM Note WHERE folder = :folderId")
+    @Query("SELECT * FROM notes WHERE id = :id")
+    suspend fun getById(id: Int): Note
+
+    @Query("SELECT * FROM notes WHERE folder = :folderId")
     suspend fun getByFolder(folderId: Int): List<Note>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -28,14 +31,17 @@ interface NotesDao{
 
 @Dao
 interface FoldersDao{
-    @Query("SELECT * FROM Folder")
+    @Query("SELECT * FROM folders")
     suspend fun getAll(): List<Folder>
 
-    @Query("SELECT * FROM Folder WHERE name = :name")
+    @Query("SELECT * FROM folders WHERE name = :name")
     suspend fun getByName(name: String): Folder
 
-    @Query("SELECT * FROM Folder WHERE priority = :priority")
+    @Query("SELECT * FROM folders WHERE priority = :priority")
     suspend fun getByPriority(priority: Int): List<Folder>
+
+    @Query("SELECT * FROM folders WHERE id = :id")
+    suspend fun getById(id: Int): Folder
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(folder: Folder)

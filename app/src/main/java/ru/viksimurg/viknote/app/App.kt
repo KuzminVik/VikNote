@@ -4,15 +4,16 @@ import android.app.Application
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import ru.viksimurg.viknote.di.appModules
+import ru.viksimurg.viknote.di.viewModels
 
 class App: Application() {
 
     override fun onCreate() {
         super.onCreate()
         startKoin {
-            androidLogger()
             androidContext(this@App)
-            modules(listOf())
+            modules(listOf(appModules, viewModels))
         }
     }
 }

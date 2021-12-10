@@ -4,10 +4,10 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
-class Note(
-    @PrimaryKey
-    @ColumnInfo(name = "id") val id: Int,
+@Entity(tableName = "notes")
+data class Note(
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id") val id: Int = 0,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "desc") val desc: String?,
     @ColumnInfo(name = "text") val text: String?,
@@ -15,10 +15,10 @@ class Note(
     @ColumnInfo(name = "priority") val priority: Int = 0
 )
 
-@Entity
-class Folder(
-    @PrimaryKey
-    @ColumnInfo(name = "id") val id: Int,
+@Entity(tableName = "folders")
+data class Folder(
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id") val id: Int = 0,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "desc") val desc: String?,
     @ColumnInfo(name = "priority") val priority: Int = 0

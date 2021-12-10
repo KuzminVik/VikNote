@@ -1,9 +1,11 @@
 package ru.viksimurg.viknote.repository
 
+import android.util.Log
 import ru.viksimurg.viknote.repository.room.Folder
 import ru.viksimurg.viknote.repository.room.FoldersDao
 import ru.viksimurg.viknote.repository.room.Note
 import ru.viksimurg.viknote.repository.room.NotesDao
+import ru.viksimurg.viknote.utils.FIRST_LAUNCH_DB
 
 class DataBaseImpl(
     private val notesDao: NotesDao,
@@ -24,6 +26,10 @@ class DataBaseImpl(
 
     override suspend fun getNoteByPriority(priority: Int): List<Note> {
         return notesDao.getByPriority(priority)
+    }
+
+    override suspend fun getNoteById(id: Int): Note {
+        return notesDao.getById(id)
     }
 
     override suspend fun saveNote(note: Note) {
@@ -50,7 +56,16 @@ class DataBaseImpl(
         return foldersDao.getByPriority(priority)
     }
 
+    override suspend fun getFolderById(id: Int): Folder {
+        return foldersDao.getById(id)
+    }
+
     override suspend fun saveFolder(folder: Folder) {
+        foldersDao.insert(folder)
+    }
+
+    override suspend fun saveNewFolder(name: String, desc: String?, priority: Int){
+        val folder = Folder(name = name, desc = desc, priority = priority)
         foldersDao.insert(folder)
     }
 

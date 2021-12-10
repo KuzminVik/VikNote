@@ -3,8 +3,10 @@ package ru.viksimurg.viknote.view.folders
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.viksimurg.viknote.R
+import ru.viksimurg.viknote.databinding.ItemListFolderBinding
 import ru.viksimurg.viknote.repository.room.Folder
 import ru.viksimurg.viknote.view.OnListItemClickListener
 
@@ -19,10 +21,9 @@ class FoldersAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerItemViewHolder {
-        return RecyclerItemViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.dictionary_recyclerview_item, parent, false) as View
-        )
+        val binding = ItemListFolderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+        return RecyclerItemViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: RecyclerItemViewHolder, position: Int) {
@@ -34,9 +35,17 @@ class FoldersAdapter(
     }
 
 
-    inner class RecyclerItemViewHolder(view: View) : RecyclerView.ViewHolder(view){
+    inner class RecyclerItemViewHolder(private val binding: ItemListFolderBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(folder: Folder){
             if (layoutPosition != RecyclerView.NO_POSITION){
+                binding.title.text = folder.name
+                binding.title.setOnClickListener { onListItemClickListener.onItemClick(folder) }
+                binding.folderIcon.setOnClickListener { onListItemClickListener.onPriorityClick() }
+                when(folder.priority){
+                    0 -> binding.priorityIcon.setImageResource(R.drawable.ic_baseline_bookmark_grey_24)
+                    1 -> binding.priorityIcon.setImageResource(R.drawable.ic_baseline_bookmark_green_24)
+                    2 -> binding.priorityIcon.setImageResource(R.drawable.ic_baseline_bookmark_red_24)
+                }
 
             }
         }

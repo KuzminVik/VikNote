@@ -35,9 +35,9 @@ object Versions{
     const val koinCore = "3.1.2"
 
     //Room
-    const val roomKtx = "2.3.0"
-    const val runtime = "2.3.0"
-    const val roomCompiler = "2.3.0"
+    const val roomKtx = "2.4.0-rc01"
+    const val runtime = "2.4.0-rc01"
+    const val roomCompiler = "2.4.0-rc01"
 
     //Test
     const val jUnit = "4.12"
