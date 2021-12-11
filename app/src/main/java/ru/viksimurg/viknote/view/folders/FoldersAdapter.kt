@@ -34,7 +34,6 @@ class FoldersAdapter(
         return values.size
     }
 
-
     inner class RecyclerItemViewHolder(private val binding: ItemListFolderBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(folder: Folder){
             if (layoutPosition != RecyclerView.NO_POSITION){

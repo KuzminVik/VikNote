@@ -21,7 +21,13 @@ class EditingViewModel(
     fun getData(){
         when(sharedPrefs.getInt(EDITING_STATE, -1)){
             STATE_FOLDER_EMPTY ->{ _mutableLiveData.value = EditingModeState.FolderState(null) }
-            STATE_NOTE_EMPTY ->{ _mutableLiveData.value = EditingModeState.NoteState(null) }
+            STATE_NOTE_EMPTY ->{
+                cancelJob()
+                viewModelCoroutineScope.launch{
+                    val list = dataBase.getListFolders()
+                    _mutableLiveData.postValue(EditingModeState.NoteState(Pair(list, null)))
+                }
+            }
             STATE_FOLDER_EDIT ->{
                 val id = sharedPrefs.getInt(EDITING_ID, -1)
                 cancelJob()
@@ -30,7 +36,11 @@ class EditingViewModel(
             STATE_NOTE_EDIT ->{
                 val id = sharedPrefs.getInt(EDITING_ID, -1)
                 cancelJob()
-                viewModelCoroutineScope.launch{_mutableLiveData.postValue(EditingModeState.NoteState(dataBase.getNoteById(id)))}
+                viewModelCoroutineScope.launch{
+                    val list = dataBase.getListFolders()
+                    val note = dataBase.getNoteById(id)
+                    _mutableLiveData.postValue(EditingModeState.NoteState(Pair(list, note)))
+                }
             }
             -1 ->{}
         }

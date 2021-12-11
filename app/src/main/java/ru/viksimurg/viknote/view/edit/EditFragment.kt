@@ -1,9 +1,11 @@
 package ru.viksimurg.viknote.view.edit
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
 import org.koin.android.ext.android.inject
@@ -45,7 +47,7 @@ class EditFragment: Fragment() {
                 showFolderLayout(editingModeState.folder)
             }
             is EditingModeState.NoteState -> {
-                showNoteLayout(editingModeState.note)
+                showNoteLayout(editingModeState.data)
             }
             is EditingModeState.Error -> {
                 showError()
@@ -85,18 +87,40 @@ class EditFragment: Fragment() {
         }
     }
 
-    private fun showNoteLayout(note: Note?){
+    private fun showNoteLayout(data: Pair<List<Folder>?, Note?>?){
         binding.editNoteLayout.visibility = View.VISIBLE
         binding.editFolderLayout.visibility = View.GONE
-        if(note != null){
-            binding.editTextHeadNote.setText(note.name)
-            binding.editTextDescriptionNote.setText(note.desc)
-            binding.editTextTextNote.setText(note.text)
+        val note = data?.second
+        val listFolders = data?.first
+        if(listFolders == null) {
+            showError()
+        }else{
+            if(note != null){
+                binding.editTextHeadNote.setText(note.name)
+                binding.editTextDescriptionNote.setText(note.desc)
+                binding.editTextTextNote.setText(note.text)
+                setSpinner(listFolders)
+            }
+            setSpinner(listFolders)
+        }
+
+    }
+
+    private fun setSpinner(listFolders: List<Folder>){
+        val newList: MutableList<Folder> = mutableListOf()
+        newList.add(Folder(id = -1, name = "Выбрать папку...", desc = "", priority = -1))
+        newList.addAll(listFolders)
+        SpinnerAdapter(
+            requireContext(),
+            newList
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
+            binding.spinnerFolders.adapter = adapter
         }
     }
 
     private fun showError(){
-
+        //TODO
     }
 
     companion object{

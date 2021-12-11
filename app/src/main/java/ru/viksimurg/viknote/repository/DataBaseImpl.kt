@@ -1,11 +1,9 @@
 package ru.viksimurg.viknote.repository
 
-import android.util.Log
 import ru.viksimurg.viknote.repository.room.Folder
 import ru.viksimurg.viknote.repository.room.FoldersDao
 import ru.viksimurg.viknote.repository.room.Note
 import ru.viksimurg.viknote.repository.room.NotesDao
-import ru.viksimurg.viknote.utils.FIRST_LAUNCH_DB
 
 class DataBaseImpl(
     private val notesDao: NotesDao,

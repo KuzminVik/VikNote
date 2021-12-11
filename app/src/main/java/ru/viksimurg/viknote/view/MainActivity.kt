@@ -55,17 +55,18 @@ class MainActivity : AppCompatActivity() {
             shPrefs.saveInt(EDITING_STATE, STATE_FOLDER_EMPTY)
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, EditFragment.newInstance())
-                .commitNow()
+                .addToBackStack(" ")
+                .commitAllowingStateLoss()
             expandOrCollapseFAB()
         }
         binding.fabNote.setOnClickListener {
             shPrefs.saveInt(EDITING_STATE, STATE_NOTE_EMPTY)
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, EditFragment.newInstance())
-                .commitNow()
+                .addToBackStack(" ")
+                .commitAllowingStateLoss()
             expandOrCollapseFAB()
         }
-
     }
 
     private fun expandOrCollapseFAB(){

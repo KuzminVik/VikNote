@@ -18,4 +18,5 @@
     <string name="add_new_note">Добавьте новую заметку</string>
     <string name="desc">Описание (не обязательно)</string>
     <string name="add_new_folder">Дабавьте новую папку</string>
+    <string name="color_bookmark">Color bookmark</string>
 </resources>

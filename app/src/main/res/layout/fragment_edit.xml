@@ -9,7 +9,7 @@
         android:id="@+id/edit_folder_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/label_add_folder"
@@ -118,7 +118,20 @@
         android:id="@+id/edit_note_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
+
+        <Spinner
+            android:id="@+id/spinner_folders"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/spinner_outline"
+            android:spinnerMode="dropdown" />
 
         <TextView
             android:id="@+id/label_add_note"
@@ -128,7 +141,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/add_new_note"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/spinner_folders" />
 
         <EditText
             android:id="@+id/editTextHeadNote"
@@ -151,8 +164,9 @@
         <EditText
             android:id="@+id/editTextDescriptionNote"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
             android:ems="10"
             android:gravity="start|top"
             android:hint="@string/desc"
@@ -162,6 +176,7 @@
             android:maxLength="250"
             android:minHeight="48dp"
             android:textColorHint="@color/hint_text"
+            app:layout_constraintBottom_toTopOf="@+id/textView_color_bookmark"
             app:layout_constraintEnd_toEndOf="@+id/editTextHeadNote"
             app:layout_constraintStart_toStartOf="@+id/editTextHeadNote"
             app:layout_constraintTop_toBottomOf="@+id/editTextHeadNote"
@@ -172,18 +187,71 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
             android:ems="10"
             android:gravity="start|top"
             android:hint="@string/your_note"
             android:importantForAutofill="no"
             android:inputType="textMultiLine"
             android:textColorHint="@color/hint_text"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/editTextHeadNote"
             app:layout_constraintStart_toStartOf="@+id/label_add_note"
             app:layout_constraintTop_toBottomOf="@+id/editTextDescriptionNote"
             tools:ignore="TextContrastCheck" />
+
+        <Button
+            android:id="@+id/button_save_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Сохранить"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup_priority_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/button_save_note"
+            app:layout_constraintStart_toStartOf="@+id/editTextDescriptionNote"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_color_grey_note"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="серый"
+                app:chipBackgroundColor="@color/hint_text" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_color_green_note"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="зеленый"
+                app:chipBackgroundColor="#43A047" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_color_red_note"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="красный"
+                app:chipBackgroundColor="#F44336" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            android:id="@+id/textView_color_bookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Цвет закладки"
+            app:layout_constraintBottom_toTopOf="@+id/chipGroup_priority_note"
+            app:layout_constraintStart_toStartOf="@+id/editTextDescriptionNote" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
