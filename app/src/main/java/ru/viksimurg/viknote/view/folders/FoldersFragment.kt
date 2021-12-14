@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.android.ext.android.inject
 import ru.viksimurg.viknote.R
@@ -75,6 +76,18 @@ class FoldersFragment : Fragment() {
                     binding.laodingFoldersLayout.visibility = View.GONE
                     binding.successFoldersLayout.visibility = View.VISIBLE
                     foldersAdapter.setData(data)
+                    binding.foldersSearch.setOnQueryTextListener(
+                        object: SearchView.OnQueryTextListener{
+                        override fun onQueryTextSubmit(query: String?): Boolean {
+                            return false
+                        }
+
+                        override fun onQueryTextChange(newText: String?): Boolean {
+                            foldersAdapter.filter.filter(newText)
+                            return false
+                        }
+
+                    })
                 }
             }
             is AppState.Loading ->{

@@ -1,11 +1,10 @@
 package ru.viksimurg.viknote.view.edit
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
 import org.koin.android.ext.android.inject
@@ -18,6 +17,7 @@ import ru.viksimurg.viknote.utils.PRIORITY_GREEN
 import ru.viksimurg.viknote.utils.PRIORITY_GREY
 import ru.viksimurg.viknote.utils.PRIORITY_RED
 import ru.viksimurg.viknote.view.folders.FoldersFragment
+import kotlin.properties.Delegates
 
 class EditFragment: Fragment() {
 
@@ -26,7 +26,8 @@ class EditFragment: Fragment() {
 
     private val viewModel: EditingViewModel by inject()
 
-    private var priority = PRIORITY_GREY
+    private var priorityFolder = PRIORITY_GREY
+    private var priorityNote by Delegates.notNull<Int>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -37,6 +38,7 @@ class EditFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getCheckNameFolder().observe(viewLifecycleOwner, { renderCheckNameFolder(it) })
         viewModel.subscribe().observe(viewLifecycleOwner, {renderData(it)})
         viewModel.getData()
     }
@@ -65,25 +67,48 @@ class EditFragment: Fragment() {
         binding.chipGroupPriority.setOnCheckedChangeListener { group, checkedId ->
             group.findViewById<Chip>(checkedId)?.let {
                 when(it.text){
-                    "серый" -> priority = PRIORITY_GREY
-                    "зеленый" -> priority = PRIORITY_GREEN
-                    "красный" -> priority = PRIORITY_RED
+                    "серый" -> priorityFolder = PRIORITY_GREY
+                    "зеленый" -> priorityFolder = PRIORITY_GREEN
+                    "красный" -> priorityFolder = PRIORITY_RED
                 }
             }
         }
         binding.buttonSaveFolder.setOnClickListener {
-            viewModel.saveFolder(
-                name = binding.editTextHead.text.toString(),
-                desc = binding.editTextDescription.text.toString(),
-                priority = priority
-            )
-            parentFragmentManager.apply {
-                beginTransaction()
-                    .setReorderingAllowed(true)
-                    .replace(R.id.container, FoldersFragment.newInstance())
-                    .addToBackStack(null)
-                    .commitAllowingStateLoss()
+            val temp = binding.editTextHead.text.toString()
+            if(temp=="" || temp==" " || temp.isEmpty()){
+                EditDialogFragment().show(parentFragmentManager, "Name_Dialog")
+            }else{
+                viewModel.checkNameFolder(temp)
             }
+        }
+    }
+
+    private fun renderCheckNameFolder(result: Boolean){
+        if (result){
+            val builder = AlertDialog.Builder(requireContext())
+            with(builder){
+                setTitle("Папка с таким именем уже существует")
+                setMessage("We have a message")
+                setPositiveButton("OK", null)
+                show()
+            }
+        } else{
+            runSaveFolder()
+        }
+    }
+
+    private fun runSaveFolder(){
+        viewModel.saveFolder(
+            name = binding.editTextHead.text.toString(),
+            desc = binding.editTextDescription.text.toString(),
+            priority = priorityFolder
+        )
+        parentFragmentManager.apply {
+            beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(R.id.container, FoldersFragment.newInstance())
+                .addToBackStack(null)
+                .commitAllowingStateLoss()
         }
     }
 
@@ -103,7 +128,6 @@ class EditFragment: Fragment() {
             }
             setSpinner(listFolders)
         }
-
     }
 
     private fun setSpinner(listFolders: List<Folder>){
