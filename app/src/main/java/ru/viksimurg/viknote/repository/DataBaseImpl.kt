@@ -35,8 +35,8 @@ class DataBaseImpl(
         notesDao.insert(note)
     }
 
-    override suspend fun saveNewNote(name: String, text: String?, folderId: Int, priority: Int){
-        val note = Note(name = name, text = text, folderId = folderId, priority = priority)
+    override suspend fun saveNewNote(name: String, text: String?, folderId: Int, priority: Int, date: String){
+        val note = Note(name = name, text = text, folderId = folderId, priority = priority, date = date)
         notesDao.insert(note)
     }
 
@@ -44,8 +44,8 @@ class DataBaseImpl(
         notesDao.delete(id)
     }
 
-    override suspend fun updateNote(id: Int, name: String, text: String?, folderId: Int, priority: Int) {
-        val note = Note(id = id, name = name, text = text, folderId = folderId, priority = priority)
+    override suspend fun updateNote(id: Int, name: String, text: String?, folderId: Int, priority: Int, date: String) {
+        val note = Note(id = id, name = name, text = text, folderId = folderId, priority = priority, date = date)
         notesDao.update(note)
     }
 

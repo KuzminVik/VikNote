@@ -18,15 +18,14 @@ class SpinnerAdapter(ctx: Context, listData: List<Folder>) :
     }
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-        if (position == 0){
-            val view = convertView ?: LayoutInflater.from(context).inflate(
+        return if (position == 0) {
+            convertView ?: LayoutInflater.from(context).inflate(
                 R.layout.spinner_row,
                 parent,
                 false
             )
-            return view
         }else{
-            return createItemView(position, convertView, parent)
+            createItemView(position, convertView, parent)
         }
     }
 

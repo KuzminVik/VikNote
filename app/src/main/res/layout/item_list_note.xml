@@ -35,25 +35,22 @@
         android:id="@+id/title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/dragHandleImageView"
-        app:layout_constraintEnd_toStartOf="@+id/dragHandleImageView"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_date"
         app:layout_constraintStart_toEndOf="@+id/note_icon"
-        app:layout_constraintTop_toTopOf="@+id/dragHandleImageView"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="TextView" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/dragHandleImageView"
+    <TextView
+        android:id="@+id/tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:tint="@color/cardview_shadow_start_color"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_hamburger_menu_bottom_bar"
-        tools:ignore="ImageContrastCheck" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -55,4 +55,8 @@
     <string name="Add">Добавить</string>
     <string name="close">Закрыть</string>
     <string name="delete">Удалить</string>
+
+    <string name="edit_note">Отредактируйте заметку</string>
+    <string name="edit_folder">Отредактируйте папку</string>
+    <string name="attention">Внимание!</string>
 </resources>

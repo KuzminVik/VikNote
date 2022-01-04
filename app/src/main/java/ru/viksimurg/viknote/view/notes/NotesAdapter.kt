@@ -43,8 +43,8 @@ class NotesAdapter(
         fun bind(note: Note){
             if (layoutPosition != RecyclerView.NO_POSITION){
                 binding.title.text = note.name
+                binding.tvDate.text = note.date
                 binding.title.setOnClickListener { onListItemClickListener.onItemClick(note) }
-                binding.noteIcon.setOnClickListener { onListItemClickListener.onEditClick(note) }
                 when(note.priority){
                     0 -> binding.priorityIcon.setImageResource(R.drawable.ic_baseline_create_grey_24)
                     1 -> binding.priorityIcon.setImageResource(R.drawable.ic_baseline_create_green_24)
@@ -85,7 +85,6 @@ class NotesAdapter(
 
     fun getCurrentNoteId(position: Int): Int{
         return values[position].id
-
     }
 
 }

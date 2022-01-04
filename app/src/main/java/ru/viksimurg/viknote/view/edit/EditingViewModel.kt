@@ -1,6 +1,8 @@
 package ru.viksimurg.viknote.view.edit
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.launch
@@ -10,6 +12,9 @@ import ru.viksimurg.viknote.repository.ResourceChipIds
 import ru.viksimurg.viknote.repository.shprefs.ShPrefsDataSource
 import ru.viksimurg.viknote.utils.*
 import ru.viksimurg.viknote.view.BaseViewModel
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class EditingViewModel(
     private val dataBase: DataBaseImpl,
@@ -31,7 +36,8 @@ class EditingViewModel(
     private var _currentPriority = 0
     private val currentPriority get() = _currentPriority
 
-    private var updatingNoteId: Int? = null
+    private var updNoteId: Int? = null
+    private var updNoteDate: String? = null
     private var updatingFolderId: Int? = null
 
     override fun getData() {
@@ -63,11 +69,12 @@ class EditingViewModel(
                 }
             }
             STATE_NOTE_EDIT -> {
-                updatingNoteId  = sharedPrefs.getInt(EDITING_ID, -1)
+                updNoteId  = sharedPrefs.getInt(EDITING_ID, -1)
                 cancelJob()
                 viewModelCoroutineScope.launch {
                     val list = dataBase.getListFolders()
-                    val note = dataBase.getNoteById(updatingNoteId!!)
+                    val note = dataBase.getNoteById(updNoteId!!)
+                    updNoteDate = note.date
                     _currentPriority = note.priority
                     when(_currentPriority){
                         PRIORITY_GREY ->{ getChipToChoice(CHIPS_NOTE_GREY) }
@@ -93,17 +100,19 @@ class EditingViewModel(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun saveNote(name: String, text: String?, folderId: Int) {
-        if (updatingNoteId == null){
+        val dateTime = LocalDateTime.now().format(
+            DateTimeFormatter.ofLocalizedTime (
+                FormatStyle.SHORT))
+        if (updNoteId == null){
             viewModelCoroutineScope.launch {
-                dataBase.saveNewNote(name = name, text = text, folderId = folderId, priority = currentPriority)
+                dataBase.saveNewNote(name = name, text = text, folderId = folderId, priority = currentPriority, date = dateTime)
                 upCountNotesByFolderId(folderId)
-//                Log.d("saveNewNote !!!", "Сохряняется priority = $currentPriority")
             }
         }else{
             viewModelCoroutineScope.launch {
-                dataBase.updateNote(id = updatingNoteId!!, name = name, text = text, folderId = folderId, priority = currentPriority)
-//                Log.d("updateNote !!!", "Сохряняется priority = $currentPriority")
+                dataBase.updateNote(id = updNoteId!!, name = name, text = text, folderId = folderId, priority = currentPriority, date = updNoteDate!!)
             }
         }
     }
@@ -135,8 +144,7 @@ class EditingViewModel(
     fun saveFolderId(id: Int) = sharedPrefs.saveInt(CURRENT_FOLDER_ID, id)
 
     fun setChipToChoice(id: Int) {
-        val s = resourceChipIds.getKeyChipById(id)
-        when(s){
+        when(resourceChipIds.getKeyChipById(id)){
             CHIPS_NOTE_GREY ->{ _currentPriority = PRIORITY_GREY }
             CHIPS_FOLDER_GREY ->{ _currentPriority = PRIORITY_GREY }
             CHIPS_NOTE_GREEN ->{ _currentPriority = PRIORITY_GREEN }

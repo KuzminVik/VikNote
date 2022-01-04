@@ -1,12 +1,14 @@
 package ru.viksimurg.viknote.view.edit
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
@@ -69,18 +71,19 @@ class EditFragment : Fragment(){
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun onFabSaveElementClick() {
         if(binding.editNoteLayout.isVisible){
             if (viewModel.checkNameNote(binding.editTextHeadNote.text.toString())){
                 runSaveNote()
             }else{
-                showDialogWithInformation("Отсутствует заголовок!", "Внимание!")
+                showDialogWithInformation("Отсутствует заголовок!", requireContext().resources.getString(R.string.attention))
             }
         }
         if (binding.editFolderLayout.isVisible){
             val temp = binding.editTextHead.text.toString()
             if (temp == "" || temp == " " || temp.isEmpty()) {
-                showDialogWithInformation("Вы не добавили заголовок!", "Внимание!")
+                showDialogWithInformation("Вы не добавили заголовок!", requireContext().resources.getString(R.string.attention))
             } else {
                 viewModel.checkNameFolder(temp)
             }
@@ -93,7 +96,7 @@ class EditFragment : Fragment(){
         binding.scrollViewNote.visibility = View.GONE
         if (folder != null) {
             binding.editTextHead.setText(folder.name)
-            binding.labelAddFolder.text = "Отредактируйте папку"
+            binding.labelAddFolder.text = requireContext().resources.getString(R.string.edit_folder)
         }
         binding.chipGroupPriority.setOnCheckedChangeListener { group, checkedId ->
             group.findViewById<Chip>(checkedId)?.let {
@@ -104,7 +107,7 @@ class EditFragment : Fragment(){
 
     private fun renderCheckNameFolder(result: Boolean) {
         if (result) {
-            showDialogWithInformation("Папка с таким именем уже существует", "Внимание!")
+            showDialogWithInformation("Папка с таким именем уже существует", requireContext().resources.getString(R.string.attention))
         } else {
             runSaveFolder()
         }
@@ -136,7 +139,7 @@ class EditFragment : Fragment(){
             if (note != null) {
                 binding.editTextHeadNote.setText(note.name)
                 binding.editTextTextNote.setText(note.text)
-                binding.labelAddNote.text = "Отредактируйте заметку"
+                binding.labelAddNote.text = requireContext().resources.getString(R.string.edit_note)
                 setSpinner(listFolders, note.folderId)
             } else {
                 setSpinner(listFolders, null)
@@ -176,6 +179,7 @@ class EditFragment : Fragment(){
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun runSaveNote(){
         val selectedFolder = binding.spinnerFolders.selectedItem as Folder
         viewModel.saveNote(

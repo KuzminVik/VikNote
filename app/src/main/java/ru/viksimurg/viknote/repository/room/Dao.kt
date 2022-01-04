@@ -1,7 +1,6 @@
 package ru.viksimurg.viknote.repository.room
 
 import androidx.room.*
-import ru.viksimurg.viknote.model.Count
 import ru.viksimurg.viknote.model.NameFolder
 
 @Dao

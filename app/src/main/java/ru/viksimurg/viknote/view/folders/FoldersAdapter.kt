@@ -44,7 +44,6 @@ class FoldersAdapter(
             if (layoutPosition != RecyclerView.NO_POSITION){
                 binding.title.text = folder.name
                 binding.title.setOnClickListener { onListItemClickListener.onItemClick(folder) }
-                binding.folderIcon.setOnClickListener { onListItemClickListener.onEditClick(folder) }
                 binding.countNotes.text = folder.countNotes.toString()
                 when(folder.priority){
                     0 -> binding.priorityIcon.setImageResource(R.drawable.ic_baseline_bookmark_grey_24)

@@ -45,7 +45,7 @@ class DetailsFragment : Fragment() {
         }
 
         override fun onClickDeleteNote() {
-            showDialogWithConfirmation("Вы действительно хотите удалить эту заметку?", "Внимание!") { _, _ ->
+            showDialogWithConfirmation("Вы действительно хотите удалить эту заметку?", requireContext().resources.getString(R.string.attention)) { _, _ ->
                 viewModel.deleteNote()
                 viewModel.upCountNotesByFolderId()
                 parentFragmentManager.beginTransaction()
@@ -73,7 +73,7 @@ class DetailsFragment : Fragment() {
             is AppState.SuccessNote -> {
                 val note = appState.note
                 if (note == null){
-                    showDialogWithInformation("Такой заметки не существует", "Внимание!")
+                    showDialogWithInformation("Такой заметки не существует", requireContext().resources.getString(R.string.attention))
                     parentFragmentManager.popBackStack()
                 }else{
                     binding.errorDetailsLayout.visibility = View.GONE
@@ -81,6 +81,7 @@ class DetailsFragment : Fragment() {
                     binding.successDetailsLayout.visibility = View.VISIBLE
                     binding.detailsTitle.text = note.name
                     binding.detailsText.text = note.text
+                    binding.detailsDate.text = note.date
                     when(note.priority){
                         PRIORITY_GREY -> binding.ivIconBookmark.setImageResource(R.drawable.ic_baseline_bookmark_grey_24)
                         PRIORITY_RED -> binding.ivIconBookmark.setImageResource(R.drawable.ic_baseline_bookmark_red_24)

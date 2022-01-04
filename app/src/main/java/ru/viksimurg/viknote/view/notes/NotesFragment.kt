@@ -128,9 +128,6 @@ class NotesFragment : Fragment() {
 
     private fun setRecyclerView() {
         binding.notesRv.layoutManager = LinearLayoutManager(requireView().context)
-//        binding.notesRv.addItemDecoration(
-//            DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
-//        )
         binding.notesRv.adapter = notesAdapter
         val itemTouchHelper = ItemTouchHelper(object : SwipeHelper(requireContext()) {
             @SuppressLint("NotifyDataSetChanged")

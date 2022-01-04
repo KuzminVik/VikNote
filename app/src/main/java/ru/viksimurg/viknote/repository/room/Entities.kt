@@ -11,7 +11,8 @@ data class Note(
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "text") val text: String?,
     @ColumnInfo(name = "folder") val folderId: Int,
-    @ColumnInfo(name = "priority") val priority: Int = 0
+    @ColumnInfo(name = "priority") val priority: Int = 0,
+    @ColumnInfo(name = "date") val date: String
 )
 
 @Entity(tableName = "folders")

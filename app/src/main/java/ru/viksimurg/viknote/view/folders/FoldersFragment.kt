@@ -44,10 +44,6 @@ class FoldersFragment : Fragment() {
                         .commitAllowingStateLoss()
                 }
             }
-
-            override fun onEditClick(data: Folder) {
-                Toast.makeText(requireContext(), "onEditClick", Toast.LENGTH_SHORT).show()
-            }
         }
 
     private val onClickFabListElements = object : OnClickFabListElements {
@@ -100,6 +96,10 @@ class FoldersFragment : Fragment() {
                                 "Вначале удалите или переместите все заметки, содержащиеся в этой папке.",
                                 "Удаление невозможно!"
                             )
+                            parentFragmentManager.beginTransaction()
+                                .replace(R.id.container, newInstance())
+                                .addToBackStack(" ")
+                                .commitAllowingStateLoss()
                         }else{
                             //Если папка пустая
                             showDialogWithConfirmation(

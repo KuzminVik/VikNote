@@ -1,6 +1,5 @@
 package ru.viksimurg.viknote.repository
 
-import ru.viksimurg.viknote.model.Count
 import ru.viksimurg.viknote.repository.room.Folder
 import ru.viksimurg.viknote.repository.room.Note
 
@@ -12,9 +11,9 @@ interface DataBase {
     suspend fun getNoteByPriority(priority: Int): List<Note>
     suspend fun getNoteById(id: Int): Note
     suspend fun saveNote(note: Note)
-    suspend fun saveNewNote(name: String, text: String?, folderId: Int, priority: Int)
+    suspend fun saveNewNote(name: String, text: String?, folderId: Int, priority: Int, date: String)
     suspend fun deleteNote(id: Int)
-    suspend fun updateNote(id: Int, name: String, text: String?, folderId: Int, priority: Int)
+    suspend fun updateNote(id: Int, name: String, text: String?, folderId: Int, priority: Int, date: String)
 
     suspend fun getListFolders(): List<Folder>
     suspend fun getFolderByName(name: String): Folder
