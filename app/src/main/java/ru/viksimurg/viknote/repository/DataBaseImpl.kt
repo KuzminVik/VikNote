@@ -10,6 +10,7 @@ class DataBaseImpl(
     private val foldersDao: FoldersDao
     ): DataBase {
 
+    // Notes >>>>
     override suspend fun getListNotes(): List<Note> {
         return notesDao.getAll()
     }
@@ -18,7 +19,7 @@ class DataBaseImpl(
         return notesDao.getByName(name)
     }
 
-    override suspend fun getNoteByFolder(folderId: Int): List<Note> {
+    override suspend fun getListNotesByFolder(folderId: Int): List<Note> {
         return notesDao.getByFolder(folderId)
     }
 
@@ -34,14 +35,21 @@ class DataBaseImpl(
         notesDao.insert(note)
     }
 
-    override suspend fun deleteNote(note: Note) {
+    override suspend fun saveNewNote(name: String, text: String?, folderId: Int, priority: Int){
+        val note = Note(name = name, text = text, folderId = folderId, priority = priority)
         notesDao.insert(note)
     }
 
-    override suspend fun updateNote(note: Note) {
+    override suspend fun deleteNote(id: Int) {
+        notesDao.delete(id)
+    }
+
+    override suspend fun updateNote(id: Int, name: String, text: String?, folderId: Int, priority: Int) {
+        val note = Note(id = id, name = name, text = text, folderId = folderId, priority = priority)
         notesDao.update(note)
     }
 
+    // Folders >>>>
     override suspend fun getListFolders(): List<Folder> {
         return  foldersDao.getAll()
     }
@@ -62,16 +70,30 @@ class DataBaseImpl(
         foldersDao.insert(folder)
     }
 
-    override suspend fun saveNewFolder(name: String, desc: String?, priority: Int){
-        val folder = Folder(name = name, desc = desc, priority = priority)
+    override suspend fun saveNewFolder(name: String, priority: Int){
+        val folder = Folder(name = name, priority = priority)
         foldersDao.insert(folder)
     }
 
-    override suspend fun deleteFolder(folder: Folder) {
-        foldersDao.delete(folder)
+    override suspend fun deleteFolder(id: Int) {
+        foldersDao.delete(id)
     }
 
-    override suspend fun updateFolder(folder: Folder) {
+    override suspend fun updateFolder(id: Int, name: String, priority: Int, countNotes: Int) {
+        val folder = Folder(id = id, name = name, priority = priority, countNotes = countNotes)
         foldersDao.update(folder)
+    }
+
+    override suspend fun getCountNotes(id: Int): Int {
+        return foldersDao.getCountNotes(id)
+    }
+
+    override suspend fun updateCountNotes(id: Int, editValue: Int) {
+        val oldValue = foldersDao.getCountNotes(id)
+        foldersDao.updateCountNotes(id, oldValue+editValue)
+    }
+
+    override suspend fun getNameFolder(id: Int): String {
+        return foldersDao.getNameFolder(id).nameFolder
     }
 }

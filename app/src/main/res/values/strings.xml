@@ -18,5 +18,41 @@
     <string name="add_new_note">Добавьте новую заметку</string>
     <string name="desc">Описание (не обязательно)</string>
     <string name="add_new_folder">Дабавьте новую папку</string>
-    <string name="color_bookmark">Color bookmark</string>
+    <string name="color_bookmark">Цвет закладки</string>
+    <string name="note_icon">note icon</string>
+    <string name="save_button">Сохранить</string>
+
+    <string name="menu_button_save_note">Menu button save note</string>
+    <string name="icon_bookmark">Icon bookmark</string>
+
+    <string name="action_edit">Редактировать</string>
+    <string name="action_delete">Удалить</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_toggle">Toggle Layout Manager</string>
+    <string name="add_folder_button">Add folder button</string>
+    <string name="add_folder">Add folder</string>
+    <string name="add_note">Add note</string>
+    <string name="menu_button">Menu button</string>
+    <string name="add">Добавить</string>
+    <string name="folder_icon">folder icon</string>
+    <string name="texttitle">TextTitle</string>
+    <string name="_0">0</string>
+    <string name="icon_up">icon up</string>
+    <string name="icon_home">Icon home</string>
+    <string name="icon_up_level">Icon up level</string>
+    <string name="tille_note">Tille note</string>
+    <string name="date">Date</string>
+    <string name="details_text">Details text</string>
+    <string name="icon_date">icon date</string>
+    <string name="icon_note">icon note</string>
+    <string name="munu_button">Munu button</string>
+    <string name="Actions">Действия</string>
+    <string name="fab">fab</string>
+    <string name="Edit">Редактировать</string>
+    <string name="Add_folder">Добавить папку</string>
+    <string name="add_note_button">Add note button</string>
+    <string name="Add_note">Добавить заметку</string>
+    <string name="Add">Добавить</string>
+    <string name="close">Закрыть</string>
+    <string name="delete">Удалить</string>
 </resources>

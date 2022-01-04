@@ -1,6 +1,8 @@
 package ru.viksimurg.viknote.repository.room
 
 import androidx.room.*
+import ru.viksimurg.viknote.model.Count
+import ru.viksimurg.viknote.model.NameFolder
 
 @Dao
 interface NotesDao{
@@ -22,11 +24,11 @@ interface NotesDao{
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(note: Note)
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.IGNORE)
     suspend fun update(note: Note)
 
-    @Delete
-    suspend fun delete(note: Note)
+    @Query("DELETE FROM notes WHERE id = :id")
+    suspend fun delete(id: Int)
 }
 
 @Dao
@@ -43,12 +45,21 @@ interface FoldersDao{
     @Query("SELECT * FROM folders WHERE id = :id")
     suspend fun getById(id: Int): Folder
 
+    @Query("SELECT count_notes FROM folders WHERE id = :id")
+    suspend fun getCountNotes(id: Int): Int
+
+    @Query("UPDATE folders SET count_notes = :count WHERE id = :id")
+    suspend fun updateCountNotes(id: Int, count: Int): Int
+
+    @Query("SELECT name FROM folders WHERE id = :id")
+    suspend fun getNameFolder(id: Int): NameFolder
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(folder: Folder)
 
     @Update
     suspend fun update(folder: Folder)
 
-    @Delete
-    suspend fun delete(folder: Folder)
+    @Query("DELETE FROM folders WHERE id = :id")
+    suspend fun delete(id: Int)
 }

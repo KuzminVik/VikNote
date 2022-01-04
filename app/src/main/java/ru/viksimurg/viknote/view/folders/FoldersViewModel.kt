@@ -1,11 +1,14 @@
 package ru.viksimurg.viknote.view.folders
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.launch
 import ru.viksimurg.viknote.model.AppState
 import ru.viksimurg.viknote.repository.DataBaseImpl
 import ru.viksimurg.viknote.repository.room.Folder
 import ru.viksimurg.viknote.repository.shprefs.ShPrefsDataSource
+import ru.viksimurg.viknote.utils.CURRENT_FOLDER_ID
+import ru.viksimurg.viknote.utils.EDITING_ID
 import ru.viksimurg.viknote.utils.FIRST_LAUNCH_DB
 import ru.viksimurg.viknote.view.BaseViewModel
 
@@ -15,11 +18,12 @@ class FoldersViewModel(
 ): BaseViewModel<AppState>() {
 
     private val liveData: LiveData<AppState> = _mutableLiveData
-    fun subscribe(): LiveData<AppState> {
-        return liveData
-    }
+    fun subscribe(): LiveData<AppState> = liveData
 
-    fun getData() {
+    private val _resultCheckCountNotes: MutableLiveData<Boolean> = MutableLiveData()
+    fun getResultCheckCountNotes(): LiveData<Boolean> = _resultCheckCountNotes
+
+    override fun getData() {
         val v = sharedPrefs.getInt(FIRST_LAUNCH_DB, -1)
         if(v == -1){
             cancelJob()
@@ -38,10 +42,30 @@ class FoldersViewModel(
     }
 
     private suspend fun startFirstDb() {
-        dataBase.saveFolder(Folder(name = "Записки охотника", desc = ""))
-        dataBase.saveFolder(Folder(name = "Список покупок", desc = ""))
-        //  dataBase.saveNote(Note(name = "Заголовок", "Краткое описание", "Текст", 1))
-        //  dataBase.saveNote(Note(name = "Заголовок", "Краткое описание", "Текст", 2))
+        dataBase.saveFolder(Folder(name = "Записки охотника"))
+        dataBase.saveFolder(Folder(name = "Список покупок"))
+    }
+
+    fun saveFolderId(id: Int){
+        sharedPrefs.saveInt(CURRENT_FOLDER_ID, id)
+    }
+
+    fun saveFolderIdForEdit(id: Int){
+        sharedPrefs.saveInt(EDITING_ID, id)
+    }
+
+    fun deleteFolder(id: Int){
+        viewModelCoroutineScope.launch{
+            dataBase.deleteFolder(id)
+        }
+    }
+
+    fun checkCountNotesInFolder(id: Int){
+        viewModelCoroutineScope.launch{
+            val count = dataBase.getCountNotes(id)
+            if (count>0) _resultCheckCountNotes.postValue(true)
+            else _resultCheckCountNotes.postValue(false)
+        }
     }
 
     override fun handleError(error: Throwable) {

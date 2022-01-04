@@ -5,20 +5,156 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".view.MainActivity">
+    tools:context=".view.main.MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.main.MainActivity">
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fab_details_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".view.MainActivity">
+            android:visibility="gone">
 
-            <FrameLayout
-                android:id="@+id/container"
-                android:layout_width="match_parent"
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/fab_button_details"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="@dimen/fab_margin"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:backgroundTint="@color/purple_200"
+                android:contentDescription="@string/munu_button"
+                android:text="@string/Actions"
+                app:fabSize="normal"
+                app:icon="@drawable/ic_baseline_expand_less_24"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appBarLayout"></FrameLayout>
+                app:srcCompat="@drawable/ic_baseline_expand_less_24" />
+
+            <TextView
+                android:id="@+id/label_fab_details_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/white"
+                android:padding="5dp"
+                android:text="@string/close"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/fab_close_details"
+                app:layout_constraintEnd_toStartOf="@+id/fab_close_details"
+                app:layout_constraintTop_toTopOf="@+id/fab_close_details" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_edit_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:backgroundTint="@color/white"
+                android:visibility="gone"
+                app:fabSize="mini"
+                app:layout_constraintBottom_toTopOf="@+id/fab_button_details"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_baseline_edit_note_24"
+                android:contentDescription="@string/fab" />
+
+            <TextView
+                android:id="@+id/label_fab_details_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/white"
+                android:padding="5dp"
+                android:text="@string/delete"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/fab_delete_details"
+                app:layout_constraintEnd_toStartOf="@+id/fab_delete_details"
+                app:layout_constraintTop_toTopOf="@+id/fab_delete_details" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_delete_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:backgroundTint="@color/white"
+                android:visibility="gone"
+                app:fabSize="mini"
+                app:layout_constraintBottom_toTopOf="@+id/fab_edit_details"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_baseline_delete_forever_24"
+                android:contentDescription="@string/fab" />
+
+            <TextView
+                android:id="@+id/label_fab_details_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/white"
+                android:padding="5dp"
+                android:text="@string/Edit"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/fab_edit_details"
+                app:layout_constraintEnd_toStartOf="@+id/fab_edit_details"
+                app:layout_constraintTop_toTopOf="@+id/fab_edit_details" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_close_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:backgroundTint="@color/white"
+                android:visibility="gone"
+                app:fabSize="mini"
+                app:layout_constraintBottom_toTopOf="@+id/fab_delete_details"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_baseline_close_24"
+                android:contentDescription="@string/fab" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fab_edit_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_button_save_element"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:backgroundTint="@color/purple_200"
+                android:contentDescription="@string/menu_button_save_note"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_baseline_save_24" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fab_add_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_folder"
@@ -26,9 +162,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_marginEnd="24dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/fab_margin"
                 android:backgroundTint="@color/white"
-                android:contentDescription="Add folder button"
+                android:contentDescription="@string/add_folder_button"
                 android:src="@drawable/ic_baseline_create_new_folder_24"
                 android:visibility="gone"
                 app:fabSize="mini"
@@ -40,7 +176,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:text="Add folder"
+                android:text="@string/Add_folder"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/fab_folder"
                 app:layout_constraintEnd_toStartOf="@+id/fab_folder"
@@ -52,9 +188,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_marginEnd="24dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/fab_margin"
                 android:backgroundTint="@color/white"
-                android:contentDescription="Add note button"
+                android:contentDescription="@string/add_note_button"
                 android:src="@drawable/ic_baseline_note_add_24"
                 android:visibility="gone"
                 app:fabSize="mini"
@@ -66,7 +202,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:text="Add note"
+                android:text="@string/Add_note"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/fab_note"
                 app:layout_constraintEnd_toStartOf="@+id/fab_note"
@@ -78,36 +214,36 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_marginEnd="@dimen/fab_margin"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/fab_margin"
                 android:backgroundTint="@color/purple_200"
-                android:contentDescription="Munu button"
-                android:text="Add"
+                android:contentDescription="@string/munu_button"
+                android:text="@string/Add"
                 app:fabSize="normal"
                 app:icon="@drawable/ic_baseline_add_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:srcCompat="@drawable/ic_baseline_add_24" />
-
-            <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/appBarLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/Theme.VikNote.AppBarOverlay"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="?attr/colorPrimary"
-                    app:popupTheme="@style/Theme.VikNote.PopupOverlay" />
-
-            </com.google.android.material.appbar.AppBarLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/Theme.VikNote.AppBarOverlay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/Theme.VikNote.PopupOverlay" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

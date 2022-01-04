@@ -12,7 +12,7 @@
         android:layout_height="41dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:contentDescription="folder icon"
+        android:contentDescription="@string/folder_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_folder_open_24" />
@@ -23,7 +23,7 @@
         android:layout_height="22dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
-        android:contentDescription="folder icon"
+        android:contentDescription="@string/folder_icon"
         app:layout_constraintStart_toStartOf="@+id/folder_icon"
         app:layout_constraintTop_toTopOf="@+id/folder_icon"
         app:srcCompat="@drawable/ic_baseline_bookmark_grey_24" />
@@ -33,12 +33,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toStartOf="@+id/dragHandleImageView"
+        android:layout_marginEnd="16dp"
+        android:text="@string/texttitle"
+        app:layout_constraintBottom_toBottomOf="@+id/dragHandleImageView"
+        app:layout_constraintEnd_toStartOf="@+id/count_notes"
         app:layout_constraintStart_toEndOf="@+id/folder_icon"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/dragHandleImageView" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/dragHandleImageView"
@@ -52,11 +52,15 @@
         app:srcCompat="@drawable/ic_hamburger_menu_bottom_bar"
         tools:ignore="ImageContrastCheck" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginTop="8dp"
-        android:background="#000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+    <TextView
+        android:id="@+id/count_notes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@string/_0"
+        app:layout_constraintBottom_toBottomOf="@+id/dragHandleImageView"
+        app:layout_constraintEnd_toStartOf="@+id/dragHandleImageView"
+        app:layout_constraintTop_toTopOf="@+id/dragHandleImageView" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

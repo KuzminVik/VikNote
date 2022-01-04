@@ -3,7 +3,6 @@ package ru.viksimurg.viknote.view
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
-import ru.viksimurg.viknote.model.AppState
 
 abstract class BaseViewModel <T>(
     protected open val _mutableLiveData: MutableLiveData<T> = MutableLiveData()
@@ -23,6 +22,8 @@ abstract class BaseViewModel <T>(
     protected fun cancelJob() {
         viewModelCoroutineScope.coroutineContext.cancelChildren()
     }
+
+    abstract fun getData()
 
     abstract fun handleError(error: Throwable)
 
