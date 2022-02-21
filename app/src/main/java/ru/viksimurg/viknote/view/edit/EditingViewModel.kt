@@ -1,11 +1,13 @@
 package ru.viksimurg.viknote.view.edit
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.viksimurg.viknote.model.EditingModeState
 import ru.viksimurg.viknote.repository.DataBaseImpl
 import ru.viksimurg.viknote.repository.ResourceChipIds
@@ -72,8 +74,8 @@ class EditingViewModel(
                 updNoteId  = sharedPrefs.getInt(EDITING_ID, -1)
                 cancelJob()
                 viewModelCoroutineScope.launch {
-                    val list = dataBase.getListFolders()
                     val note = dataBase.getNoteById(updNoteId!!)
+                    val list = dataBase.getListFolders()
                     updNoteDate = note.date
                     _currentPriority = note.priority
                     when(_currentPriority){

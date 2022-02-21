@@ -11,11 +11,9 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import ru.viksimurg.viknote.R
 import ru.viksimurg.viknote.databinding.FragmentNotesBinding
 import ru.viksimurg.viknote.model.AppState
-import ru.viksimurg.viknote.repository.room.Note
 import ru.viksimurg.viknote.utils.*
 import ru.viksimurg.viknote.utils.swipe.SwipeHelper
 import ru.viksimurg.viknote.view.folders.OnClickFabListElements
-import ru.viksimurg.viknote.view.OnListItemClickListener
 import ru.viksimurg.viknote.view.details.DetailsFragment
 import ru.viksimurg.viknote.view.edit.EditFragment
 import ru.viksimurg.viknote.view.folders.FoldersFragment
@@ -28,20 +26,6 @@ class NotesFragment : Fragment() {
 
     private val viewModel: NotesViewModel by inject()
     private val sharedViewModelFab by sharedViewModel<MainViewModel>()
-
-    private val onListItemClickListener =
-        object : OnListItemClickListener<Note> {
-            override fun onItemClick(data: Note) {
-                viewModel.saveOpenNoteId(data.id)
-                parentFragmentManager.apply {
-                    beginTransaction()
-                        .setReorderingAllowed(true)
-                        .replace(R.id.container, DetailsFragment.newInstance(), DETAILS_FRAGMENT)
-                        .addToBackStack("")
-                        .commitAllowingStateLoss()
-                }
-            }
-        }
 
     private val onClickFabListElements =
         object : OnClickFabListElements {
@@ -62,7 +46,16 @@ class NotesFragment : Fragment() {
             }
         }
 
-    private val notesAdapter = NotesAdapter(onListItemClickListener)
+    private val notesAdapter = NotesAdapter {
+        viewModel.saveOpenNoteId(it)
+        parentFragmentManager.apply {
+            beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(R.id.container, DetailsFragment.newInstance(), DETAILS_FRAGMENT)
+                .addToBackStack("")
+                .commitAllowingStateLoss()
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {

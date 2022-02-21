@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,10 +15,8 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import ru.viksimurg.viknote.R
 import ru.viksimurg.viknote.databinding.FragmentFoldersBinding
 import ru.viksimurg.viknote.model.AppState
-import ru.viksimurg.viknote.repository.room.Folder
 import ru.viksimurg.viknote.utils.*
 import ru.viksimurg.viknote.utils.swipe.SwipeHelper
-import ru.viksimurg.viknote.view.OnListItemClickListener
 import ru.viksimurg.viknote.view.edit.EditFragment
 import ru.viksimurg.viknote.view.main.MainViewModel
 import ru.viksimurg.viknote.view.notes.NotesFragment
@@ -31,20 +28,6 @@ class FoldersFragment : Fragment() {
 
     private val viewModel: FoldersViewModel by inject()
     private val sharedViewModelFab by sharedViewModel<MainViewModel>()
-
-    private val onListItemClickListener: OnListItemClickListener<Folder> =
-        object : OnListItemClickListener<Folder> {
-            override fun onItemClick(data: Folder) {
-                viewModel.saveFolderId(data.id)
-                parentFragmentManager.apply {
-                    beginTransaction()
-                        .setReorderingAllowed(true)
-                        .replace(R.id.container, NotesFragment.newInstance())
-                        .addToBackStack("")
-                        .commitAllowingStateLoss()
-                }
-            }
-        }
 
     private val onClickFabListElements = object : OnClickFabListElements {
         override fun onClickAddFolder() {
@@ -64,7 +47,16 @@ class FoldersFragment : Fragment() {
         }
     }
 
-    private val foldersAdapter = FoldersAdapter(onListItemClickListener)
+    private val foldersAdapter = FoldersAdapter {
+        viewModel.saveFolderId(it)
+        parentFragmentManager.apply {
+            beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(R.id.container, NotesFragment.newInstance())
+                .addToBackStack("")
+                .commitAllowingStateLoss()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -76,7 +68,7 @@ class FoldersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sharedViewModelFab.setDataFab(LIST_ELEMENTS_FRAGMENT, onClickFabListElements)
-        viewModel.subscribe().observe(viewLifecycleOwner, { renderData(it) })
+        viewModel.subscribe().observe(viewLifecycleOwner) { renderData(it) }
         viewModel.getData()
         setUpRecyclerView()
     }
@@ -88,9 +80,9 @@ class FoldersFragment : Fragment() {
             @SuppressLint("NotifyDataSetChanged")
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
-                if (direction == ItemTouchHelper.RIGHT){
+                if (direction == ItemTouchHelper.RIGHT) {
                     viewModel.getResultCheckCountNotes().observe(viewLifecycleOwner, {
-                        if(it){
+                        if (it) {
                             //Если папка не пустая
                             showDialogWithInformation(
                                 "Вначале удалите или переместите все заметки, содержащиеся в этой папке.",
@@ -100,7 +92,7 @@ class FoldersFragment : Fragment() {
                                 .replace(R.id.container, newInstance())
                                 .addToBackStack(" ")
                                 .commitAllowingStateLoss()
-                        }else{
+                        } else {
                             //Если папка пустая
                             showDialogWithConfirmation(
                                 "Вы действительно хотите удалить эту папку?",
@@ -116,7 +108,7 @@ class FoldersFragment : Fragment() {
                         foldersAdapter.notifyDataSetChanged()
                     })
                     viewModel.checkCountNotesInFolder(foldersAdapter.getCurrentFolderId(position))
-                }else{
+                } else {
                     sharedViewModelFab.saveIntPrefs(EDITING_STATE, STATE_FOLDER_EDIT)
                     viewModel.saveFolderIdForEdit(foldersAdapter.getCurrentFolderId(position))
                     parentFragmentManager.apply {

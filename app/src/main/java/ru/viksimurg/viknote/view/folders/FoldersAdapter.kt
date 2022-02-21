@@ -1,7 +1,6 @@
 package ru.viksimurg.viknote.view.folders
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
@@ -10,12 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.viksimurg.viknote.R
 import ru.viksimurg.viknote.databinding.ItemListFolderBinding
 import ru.viksimurg.viknote.repository.room.Folder
-import ru.viksimurg.viknote.view.OnListItemClickListener
 import java.util.*
 
-class FoldersAdapter(
-    private var onListItemClickListener: OnListItemClickListener<Folder>
-    ): RecyclerView.Adapter<FoldersAdapter.RecyclerItemViewHolder>(), Filterable {
+class FoldersAdapter(private var clickListener: (Int) -> Unit): RecyclerView.Adapter<FoldersAdapter.RecyclerItemViewHolder>(), Filterable {
 
     private var dataFirst: MutableList<Folder> = mutableListOf()
     private var values: MutableList<Folder> = mutableListOf()
@@ -35,22 +31,19 @@ class FoldersAdapter(
         holder.bind(values[position])
     }
 
-    override fun getItemCount(): Int {
-        return values.size
-    }
+    override fun getItemCount(): Int = values.size
 
     inner class RecyclerItemViewHolder(private val binding: ItemListFolderBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(folder: Folder){
             if (layoutPosition != RecyclerView.NO_POSITION){
                 binding.title.text = folder.name
-                binding.title.setOnClickListener { onListItemClickListener.onItemClick(folder) }
+                binding.title.setOnClickListener { clickListener.invoke(folder.id) }
                 binding.countNotes.text = folder.countNotes.toString()
                 when(folder.priority){
                     0 -> binding.priorityIcon.setImageResource(R.drawable.ic_baseline_bookmark_grey_24)
                     1 -> binding.priorityIcon.setImageResource(R.drawable.ic_baseline_bookmark_green_24)
                     2 -> binding.priorityIcon.setImageResource(R.drawable.ic_baseline_bookmark_red_24)
                 }
-
             }
         }
     }
@@ -83,7 +76,6 @@ class FoldersAdapter(
         }
     }
 
-    fun getCurrentFolderId(position: Int): Int {
-        return values[position].id
-    }
+    fun getCurrentFolderId(position: Int): Int = values[position].id
+
 }

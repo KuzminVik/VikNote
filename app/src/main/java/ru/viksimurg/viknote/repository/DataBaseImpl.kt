@@ -1,5 +1,7 @@
 package ru.viksimurg.viknote.repository
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import ru.viksimurg.viknote.repository.room.Folder
 import ru.viksimurg.viknote.repository.room.FoldersDao
 import ru.viksimurg.viknote.repository.room.Note
@@ -11,89 +13,75 @@ class DataBaseImpl(
     ): DataBase {
 
     // Notes >>>>
-    override suspend fun getListNotes(): List<Note> {
-        return notesDao.getAll()
-    }
+    override suspend fun getListNotes(): List<Note> =
+    withContext(Dispatchers.IO) { notesDao.getAll() }
 
-    override suspend fun getNoteByName(name: String): Note {
-        return notesDao.getByName(name)
-    }
+    override suspend fun getNoteByName(name: String): Note =
+        withContext(Dispatchers.IO) { notesDao.getByName(name) }
 
-    override suspend fun getListNotesByFolder(folderId: Int): List<Note> {
-        return notesDao.getByFolder(folderId)
-    }
+    override suspend fun getListNotesByFolder(folderId: Int): List<Note> =
+        withContext(Dispatchers.IO) { notesDao.getByFolder(folderId) }
 
-    override suspend fun getNoteByPriority(priority: Int): List<Note> {
-        return notesDao.getByPriority(priority)
-    }
+    override suspend fun getNoteByPriority(priority: Int): List<Note> =
+        withContext(Dispatchers.IO) { notesDao.getByPriority(priority) }
 
-    override suspend fun getNoteById(id: Int): Note {
-        return notesDao.getById(id)
-    }
+    override suspend fun getNoteById(id: Int): Note =
+        withContext(Dispatchers.IO) { notesDao.getById(id) }
 
-    override suspend fun saveNote(note: Note) {
-        notesDao.insert(note)
-    }
+    override suspend fun saveNote(note: Note) =
+        withContext(Dispatchers.IO) { notesDao.insert(note) }
 
     override suspend fun saveNewNote(name: String, text: String?, folderId: Int, priority: Int, date: String){
         val note = Note(name = name, text = text, folderId = folderId, priority = priority, date = date)
-        notesDao.insert(note)
+        withContext(Dispatchers.IO) { notesDao.insert(note) }
     }
 
-    override suspend fun deleteNote(id: Int) {
-        notesDao.delete(id)
-    }
+    override suspend fun deleteNote(id: Int) =
+        withContext(Dispatchers.IO) { notesDao.delete(id) }
 
     override suspend fun updateNote(id: Int, name: String, text: String?, folderId: Int, priority: Int, date: String) {
         val note = Note(id = id, name = name, text = text, folderId = folderId, priority = priority, date = date)
-        notesDao.update(note)
+        withContext(Dispatchers.IO) { notesDao.update(note) }
     }
 
     // Folders >>>>
-    override suspend fun getListFolders(): List<Folder> {
-        return  foldersDao.getAll()
-    }
+    override suspend fun getListFolders(): List<Folder> =
+        withContext(Dispatchers.IO) { foldersDao.getAll() }
 
-    override suspend fun getFolderByName(name: String): Folder {
-        return foldersDao.getByName(name)
-    }
+    override suspend fun getFolderByName(name: String): Folder =
+        withContext(Dispatchers.IO) { foldersDao.getByName(name) }
 
-    override suspend fun getFolderByPriority(priority: Int): List<Folder> {
-        return foldersDao.getByPriority(priority)
-    }
+    override suspend fun getFolderByPriority(priority: Int): List<Folder> =
+        withContext(Dispatchers.IO) { foldersDao.getByPriority(priority) }
 
-    override suspend fun getFolderById(id: Int): Folder {
-        return foldersDao.getById(id)
-    }
+    override suspend fun getFolderById(id: Int): Folder =
+        withContext(Dispatchers.IO) { foldersDao.getById(id) }
 
-    override suspend fun saveFolder(folder: Folder) {
-        foldersDao.insert(folder)
-    }
+    override suspend fun saveFolder(folder: Folder) =
+        withContext(Dispatchers.IO) { foldersDao.insert(folder) }
 
     override suspend fun saveNewFolder(name: String, priority: Int){
         val folder = Folder(name = name, priority = priority)
-        foldersDao.insert(folder)
+        withContext(Dispatchers.IO) { foldersDao.insert(folder) }
     }
 
-    override suspend fun deleteFolder(id: Int) {
-        foldersDao.delete(id)
-    }
+    override suspend fun deleteFolder(id: Int) =
+        withContext(Dispatchers.IO) { foldersDao.delete(id) }
 
     override suspend fun updateFolder(id: Int, name: String, priority: Int, countNotes: Int) {
         val folder = Folder(id = id, name = name, priority = priority, countNotes = countNotes)
-        foldersDao.update(folder)
+        withContext(Dispatchers.IO) { foldersDao.update(folder) }
     }
 
-    override suspend fun getCountNotes(id: Int): Int {
-        return foldersDao.getCountNotes(id)
-    }
+    override suspend fun getCountNotes(id: Int): Int =
+        withContext(Dispatchers.IO) { foldersDao.getCountNotes(id) }
 
     override suspend fun updateCountNotes(id: Int, editValue: Int) {
         val oldValue = foldersDao.getCountNotes(id)
-        foldersDao.updateCountNotes(id, oldValue+editValue)
+        withContext(Dispatchers.IO) { foldersDao.updateCountNotes(id, oldValue+editValue) }
     }
 
-    override suspend fun getNameFolder(id: Int): String {
-        return foldersDao.getNameFolder(id).nameFolder
-    }
+    override suspend fun getNameFolder(id: Int): String =
+        withContext(Dispatchers.IO) { foldersDao.getNameFolder(id).nameFolder }
+
 }
